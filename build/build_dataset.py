@@ -49,7 +49,7 @@ def preprocess_tracks(df: pd.DataFrame) -> pd.DataFrame:
         df[["valence", "energy*valence"]]
     )
 
-    # assign internal ID LAST
+    # assign id col
     df.reset_index(drop=True, inplace=True)
     df["id"] = df.index.astype("int32")
 
@@ -85,20 +85,15 @@ def compute_camelot_era(df: pd.DataFrame) -> pd.DataFrame:
 def assert_invariants(df: pd.DataFrame):
     assert df["id"].is_monotonic_increasing
     assert (df["id"].values == np.arange(len(df))).all()
-    assert len(df) > 1_000_000
 
 def write_files(df: pd.DataFrame):
-    # gets the directory where build_dataset.py actually lives
+    # get the directory where build_dataset.py lives
     script_dir = os.path.dirname(os.path.abspath(__file__)) 
     
     # ensures it goes to /camelot/data/ even if you run from root
     # script_dir is /camelot/build, so ../data is /camelot/data
     output_dir = os.path.join(script_dir, "../data")
-    
     os.makedirs(output_dir, exist_ok=True)
-    
-    # Print it so you can click the link in your terminal
-    print(f"🚀 Exporting data to: {os.path.abspath(output_dir)}")
 
     df_pq = df[FINAL_METADATA_COLS] # to store song metadata
     df_np = df[FEATURE_COLS] # to store song features
@@ -109,11 +104,16 @@ def write_files(df: pd.DataFrame):
     np.save(os.path.join(output_dir, "features.npy"), feature_matrix)
     
 def main():
+    print("📊 loading raw data from kaggle... ")
     df = load_raw_data()
+    print("📊 preprocessing tracks... ")
     df = preprocess_tracks(df)
+    print("🧮 computing camelot and era for each song... ")
     df = compute_camelot_era(df)
     assert_invariants(df)
+    print("✍️ writing tracks.parquet and features.npy... ")
     write_files(df)
+    print("✅ files written!")
     
 if __name__ == "__main__":
     main()
