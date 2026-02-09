@@ -72,6 +72,7 @@ def assemble_search_index(inverted_index: dict[str, set[int]], prefix_index: dic
         "prefix_index": prefix_index
     }
     
+# write search structures (now dict) to .pkl file in /data
 def save_search_index(search_index: dict, path: str):
     with open(path, "wb") as f:
         pickle.dump(search_index, f)

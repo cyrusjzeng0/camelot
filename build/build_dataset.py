@@ -27,6 +27,7 @@ def load_raw_data() -> pd.DataFrame:
     
     return df
 
+# metadata + audio feature preprocessing
 def preprocess_tracks(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
 
@@ -55,6 +56,7 @@ def preprocess_tracks(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+# camelot + era computation using key and mode + year respectively
 def compute_camelot_era(df: pd.DataFrame) -> pd.DataFrame:
     df = df.copy()
     
@@ -82,10 +84,12 @@ def compute_camelot_era(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
     
+# asserts to check id col in dataframe
 def assert_invariants(df: pd.DataFrame):
     assert df["id"].is_monotonic_increasing
     assert (df["id"].values == np.arange(len(df))).all()
 
+# write tracks.parquet and features.npy
 def write_files(df: pd.DataFrame):
     # get the directory where build_dataset.py lives
     script_dir = os.path.dirname(os.path.abspath(__file__)) 
