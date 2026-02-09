@@ -89,8 +89,7 @@ def assert_invariants(df: pd.DataFrame):
 def write_files(df: pd.DataFrame):
     # get the directory where build_dataset.py lives
     script_dir = os.path.dirname(os.path.abspath(__file__)) 
-    
-    # ensures it goes to /camelot/data/ even if you run from root
+
     # script_dir is /camelot/build, so ../data is /camelot/data
     output_dir = os.path.join(script_dir, "../data")
     os.makedirs(output_dir, exist_ok=True)
@@ -102,6 +101,9 @@ def write_files(df: pd.DataFrame):
     
     feature_matrix = df_np.to_numpy(dtype="float32")
     np.save(os.path.join(output_dir, "features.npy"), feature_matrix)
+    
+    print(f"metadata shape: {df_pq.shape}")
+    print(f"feature_matrix shape: {df_np.shape}")
     
 def main():
     print("📊 loading raw data from kaggle... ")

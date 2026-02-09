@@ -39,7 +39,7 @@ def extract_tokens(name: str, artists: list[str]) -> set[str]:
         
     return tokens
 
-# build token -> set(id) inverted index
+# build token -> set(id) inverted index for entire dataframe
 def build_inverted_index(df: pd.DataFrame) -> dict[str, set[int]]:
     inverted_index = defaultdict(set)
     
@@ -50,11 +50,11 @@ def build_inverted_index(df: pd.DataFrame) -> dict[str, set[int]]:
 
     return dict(inverted_index)
 
-# map prefix -> set of full tokens. max_prefix_len caps user query (most tokens are under 10 chars in length)
+# map prefix -> set of full tokens. max_prefix_len caps user query (most tokens are under 10 chars in length) for entire dataframe
 def build_prefix_index(tokens: set[str], min_prefix_len: int = 2, max_prefix_len: int = 10) -> dict[str, set[str]]:
     prefix_index = defaultdict(set)
 
-    for token in tokens:
+    for token in tokens: # tokens = keys of inverted index dict
         token_len = len(token)
         upper = min(token_len, max_prefix_len)
 
@@ -74,7 +74,7 @@ def assemble_search_index(inverted_index: dict[str, set[int]], prefix_index: dic
     
 def save_search_index(search_index: dict, path: str):
     with open(path, "wb") as f:
-        pickle.dump(search_index, f) # explain tradeoffs of using pickle - benefits and drawbacks compared to alternatives
+        pickle.dump(search_index, f)
 
 def main():
     script_dir = os.path.dirname(os.path.abspath(__file__)) # find directory this file is in
