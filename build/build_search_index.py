@@ -1,6 +1,4 @@
 """
-build_search_index.py
----------------------
 given partial user search query, finds top matching songs fast
 """
 
@@ -25,7 +23,7 @@ def normalize_text(text: str) -> str:
     return text.strip()
 
 # extract normalized word tokens from each song's name + artist names
-def extract_tokens(name: str, artists: list[str]) -> set[str]:
+def extract_tokens(name: str, artists: list[str] = []) -> set[str]:
     tokens = set()
     
     # song title
@@ -33,6 +31,9 @@ def extract_tokens(name: str, artists: list[str]) -> set[str]:
     tokens.update(name_norm.split())
     
     # artists
+    if not artists: # if empty list
+        return tokens
+    
     for artist in artists:
         artist_norm = normalize_text(artist)
         tokens.update(artist_norm.split())
