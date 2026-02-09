@@ -58,24 +58,37 @@ def search(
     if idx_set is None:
         return []
         
+    # O(1) set intersection
     if era and era_index:
         idx_set &= era_index.get(era, set())
         
     return list(idx_set)[:top_k]
 
-def main():
+def main(): # delete later; used for testing
+    print("🧮 loading indices... ")
     indices = load_indices()
     search_idx = indices["search"]
     era_idx = indices["era"]
-    ids = search(
-        query="taylor sw",
-        search_index=search_idx,
-        era_index=era_idx,
-        top_k=10,
-        era="modern"
-    )
-    
-    print(ids)
+    print("📊 loading tracks... ")
+    data = pd.read_parquet(os.path.join(DATA_DIR, "tracks.parquet"))
+    while True:
+        query = input("💬 ENTER QUERY: ")
+        if query.strip() == "":
+            print("✅ exit successful")
+            break
+        ids = search(
+            query=query,
+            search_index=search_idx,
+            era_index=era_idx,
+            top_k=10,
+            era="modern"
+        )
+        if ids:
+            for id in ids:
+                print(f"id: {id}\tname: {data.loc[id, "name"]}\tartists: {data.loc[id, "artists"]}")
+        else:
+            print("❌ no results found")
+            
     
 if __name__ == "__main__":
     main() # run using "python -m app.search"; safe to delete pycache
