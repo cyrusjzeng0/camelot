@@ -1,5 +1,9 @@
 """
-given partial user search query, finds top matching songs fast
+builds search_index.pkl, saves to /data. allows for fast song lookups given a partial user search query.
+----------
+search_index.pkl - stores 2 dicts, "inverted_index" and "prefix_index", inside a dict. 
+- "inverted_index" stores key-value pairings with keys = all complete tokens in dataframe, values = all song_ids corresponding to those complete tokens.
+- "prefix_index" stores key-value pairings with keys = all possible prefixes (incomplete tokens), values = all corresponding complete tokens
 """
 
 import pandas as pd

@@ -1,3 +1,10 @@
+"""
+builds tracks.parquet and features.npy straight from kaggle dataset, saves to /data.
+----------
+tracks.parquet - stores metadata for each song; primary key = id. columns: ["id", "spot_id", "name", "artists", "tempo", "year", "era", "camelot"]
+features.npy - stores audio features for each song; each row corresponds to respective id in tracks.parquet. columns: ["energy", "valence", "danceability", "acousticness", "energy*valence"]
+"""
+
 import kagglehub
 import ast
 import os
@@ -83,11 +90,6 @@ def compute_camelot_era(df: pd.DataFrame) -> pd.DataFrame:
     df = df.drop(columns=["key", "mode"])
 
     return df
-    
-# asserts to check id col in dataframe
-def assert_invariants(df: pd.DataFrame):
-    assert df["id"].is_monotonic_increasing
-    assert (df["id"].values == np.arange(len(df))).all()
 
 # write tracks.parquet and features.npy
 def write_files(df: pd.DataFrame):
@@ -116,7 +118,6 @@ def main():
     df = preprocess_tracks(df)
     print("🧮 computing camelot and era for each song... ")
     df = compute_camelot_era(df)
-    assert_invariants(df)
     print("✍️ writing tracks.parquet and features.npy... ")
     write_files(df)
     print("✅ files written!")

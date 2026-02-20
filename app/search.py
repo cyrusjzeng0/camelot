@@ -71,6 +71,7 @@ def main(): # delete later; used for testing
     era_idx = indices["era"]
     print("📊 loading tracks... ")
     data = pd.read_parquet(os.path.join(DATA_DIR, "tracks.parquet"))
+    
     while True:
         query = input("💬 ENTER QUERY: ")
         if query.strip() == "":
@@ -85,7 +86,7 @@ def main(): # delete later; used for testing
         )
         if ids:
             for id in ids:
-                print(f"id: {id}\tname: {data.loc[id, "name"]}\tartists: {data.loc[id, "artists"]}")
+                print(f"id: {id}\t\tname: {data.loc[id, "name"]}\t\tartists: {data.loc[id, "artists"]}")
         else:
             print("❌ no results found")
             
