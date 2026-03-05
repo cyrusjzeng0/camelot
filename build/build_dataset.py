@@ -42,6 +42,10 @@ def preprocess_tracks(df: pd.DataFrame) -> pd.DataFrame:
     df["artists"] = df["artists"].apply(ast.literal_eval)
     df = df[df["year"] >= 1955]
 
+    # one row per unique (name, artists); artists is a list so use a hashable key
+    df["_dedup_key"] = df.apply(lambda row: (row["name"], tuple(row["artists"])), axis=1)
+    df = df.drop_duplicates(subset=["_dedup_key"], keep="first").drop(columns=["_dedup_key"]).reset_index(drop=True)
+
     # dtypes
     df[["tempo", "year"]] = df[["tempo", "year"]].astype("int16")
     for feat in FEATURE_COLS:

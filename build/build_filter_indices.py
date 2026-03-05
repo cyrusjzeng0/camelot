@@ -2,7 +2,7 @@
 builds era_index.pkl and camelot_index.pkl, saves to /data.
 ----------
 era_index.pkl - stores key-value pairings with key = era (str; "modern" or "throwback"), value = set of corresponding IDs
-camelot_idx.pkl - stores key-value pairings with key = camelot (str; 1A, 11B, etc), value = set of corresponding IDs
+camelot_index.pkl - stores key-value pairings with key = camelot (str; 1A, 11B, etc), value = set of corresponding IDs
 """
 
 import pandas as pd

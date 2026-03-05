@@ -27,19 +27,19 @@ def normalize_text(text: str) -> str:
     return text.strip()
 
 # extract normalized word tokens from each song's name + artist names
-def extract_tokens(name: str, artists: list[str] = []) -> set[str]:
+def extract_tokens(name: str, artists=None) -> set[str]:
     tokens = set()
     
     # song title
-    name_norm = normalize_text(name)
+    name_norm = normalize_text(str(name))
     tokens.update(name_norm.split())
     
-    # artists
-    if not artists: # if empty list
+    # artists (parquet can give numpy array; ensure list and safe empty check)
+    if artists is None or len(artists) == 0:
         return tokens
-    
+    artists = list(artists)
     for artist in artists:
-        artist_norm = normalize_text(artist)
+        artist_norm = normalize_text(str(artist))
         tokens.update(artist_norm.split())
         
     return tokens
