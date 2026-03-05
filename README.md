@@ -2,7 +2,7 @@
 
 DJ recommender and audience queue platform. Recommends next tracks using Camelot key compatibility, BPM range, and audio-feature similarity. Audience members can submit requests to a live session queue.
 
-## What's in this repo
+## Repo components
 
 - **Build** (`build/`) – Offline pipeline: download Kaggle Spotify 12M dataset, deduplicate, engineer Camelot + era, write `tracks.parquet` and `features.npy`, then build search and filter indices into `data/`.
 - **App** (`app/`) – Runtime:
@@ -60,14 +60,8 @@ camelot/
 
 ---
 
-## Documentation structure
+## Additional documentation (coming soon!)
 
-**Recommendation: one README plus optional topic-based docs.**
-
-- **Single README** (this file) as the main entry point: what the project is, how to build and run, layout, and next steps. That’s enough for most contributors and for a resume/portfolio.
-- **If you want more:** add a **`docs/`** folder and split by **topic**, not by source file:
-  - `docs/BUILD.md` – Detailed build pipeline, column meanings, index formats.
-  - `docs/API.md` – Once you have an API: endpoints, request/response shapes.
-  - `docs/ARCHITECTURE.md` – Data flow, how queue/recommender/profiles connect.
-
-Avoid a separate `.md` for every `.py` file; that’s hard to keep in sync and clutters the repo. One README + a few topic docs under `docs/` keeps things clear and maintainable.
+- `docs/BUILD.md` – Detailed build pipeline, column meanings, index formats.
+- `docs/API.md` – Once you have an API: endpoints, request/response shapes.
+- `docs/ARCHITECTURE.md` – Data flow, how queue/recommender/profiles connect.
