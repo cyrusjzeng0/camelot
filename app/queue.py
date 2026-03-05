@@ -70,7 +70,7 @@ class QueueManager:
         session = Session(
             id=session_id,
             dj_id=dj_id,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(datetime.UTC),
             status="active",
             current_track_id=None,
             era_preference=era_preference,
@@ -126,7 +126,7 @@ class QueueManager:
             session_id=session_id,
             requester_id=requester_id,
             track_id=track_id,
-            created_at=datetime.utcnow(),
+            created_at=datetime.now(datetime.UTC),
             status="pending",
             upvotes=0,
             note=note,
@@ -194,7 +194,7 @@ def main() -> None:
     next-track recommendations (recommender ↔ queue link).
     """
     manager = QueueManager()
-    print("🎛️  Creating demo session for dj 'demo_dj'...")
+    print("🎛️ creating demo session for dj 'demo_dj'...")
     session = manager.create_session(dj_id="demo_dj", era_preference=None)
     print(f"✅ created session with id={session.id}")
 
