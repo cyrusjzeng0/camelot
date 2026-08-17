@@ -8,7 +8,7 @@ search_index.pkl - stores 2 dicts, "inverted_index" and "prefix_index", inside a
 
 import pandas as pd
 import os
-import re # regex
+import re
 from collections import defaultdict
 import pickle
 
